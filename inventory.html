@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventory</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="inventory.css">
+</head>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="logo-section">
+      <img src="/fend/img/logo.png" alt="Logo" class="logo">
+    </div>
+    <div class="menu-links">
+      <a href="index.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+      <a href="inventory.html"><i class="fas fa-archive"></i> Inventory</a>
+      <a href="sales.html"><i class="fas fa-cash-register"></i> POS</a>
+      <a href="#"><i class="fas fa-file-invoice"></i> Sales Report</a>
+      <a href="#"><i class="fas fa-user-cog"></i> Account</a>
+    </div>
+    <div class="bottom-links">
+      <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+  </div>
+
+  <!-- Wrapper (Content Area) -->
+  <div class="wrapper">
+    <h1>INVENTORY</h1>
+
+    <!-- Search Bar and Filter Options -->
+    <div class="filters">
+      <input type="text" id="searchInput" placeholder="Search by name or ID..." class="search-bar">
+      <div class="filter-options">
+        <select id="categoryFilter">
+          <option value="all">All Categories</option>
+          <option value="electronics">Electronics</option>
+          <option value="apparel">Apparel</option>
+          <!-- Add more categories here -->
+        </select>
+        <select id="statusFilter">
+          <option value="all">All Status</option>
+          <option value="inStock">In Stock</option>
+          <option value="lowStock">Low Stock</option>
+          <option value="outOfStock">Out of Stock</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Quick Action Buttons -->
+    <div class="action-buttons">
+      <button id="addProductBtn">Add New Product</button>
+    </div>
+
+    <!-- Product Table -->
+    <div class="table-container">
+      <h2>Product Inventory</h2>
+      <table id="productTable">
+        <thead>
+          <tr>
+            <th>Product Name</th>
+            <th>Product ID</th>
+            <th>Category</th>
+            <th>Stock Left</th>
+            <th>Threshold/Min Stock</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Example Product Rows (can be dynamically populated) -->
+          <tr data-status="inStock">
+            <td>Wireless Mouse</td>
+            <td>001</td>
+            <td>Electronics</td>
+            <td>100</td>
+            <td>20</td>
+            <td>In Stock</td>
+            <td>
+              <button class="editBtn">Edit</button>
+              <button class="deleteBtn">Delete</button>
+              <button class="restockBtn">Restock</button>
+            </td>
+          </tr>
+          <tr data-status="lowStock">
+            <td>T-Shirt</td>
+            <td>002</td>
+            <td>Apparel</td>
+            <td>30</td>
+            <td>20</td>
+            <td>Low Stock</td>
+            <td>
+              <button class="editBtn">Edit</button>
+              <button class="deleteBtn">Delete</button>
+              <button class="restockBtn">Restock</button>
+            </td>
+          </tr>
+          <tr data-status="outOfStock">
+            <td>Headphones</td>
+            <td>003</td>
+            <td>Electronics</td>
+            <td>0</td>
+            <td>10</td>
+            <td>Out of Stock</td>
+            <td>
+              <button class="editBtn">Edit</button>
+              <button class="deleteBtn">Delete</button>
+              <button class="restockBtn">Restock</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
