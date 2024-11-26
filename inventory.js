@@ -2,6 +2,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const addItemForm = document.getElementById("addItemForm");
     const tableBody = document.querySelector("tbody");
     const searchBar = document.getElementById("searchInput");
+    const restockForm = document.getElementById("restockForm");
+    const restockAmountInput = document.getElementById("restockAmount");
 
     let editingRow = null;
     let productIdCounter = 1; // Start product ID counter
@@ -106,13 +108,33 @@ document.addEventListener("DOMContentLoaded", () => {
         // Restock functionality
         restockBtn.addEventListener("click", () => {
             const stockCell = row.children[3];
-            let currentStock = parseInt(stockCell.textContent, 10);
-            currentStock += 10; // Increment stock by 10
-            stockCell.textContent = currentStock;
+            const currentStock = parseInt(stockCell.textContent, 10);
+            
+            // Open Restock Modal
+            const restockModal = new bootstrap.Modal(document.getElementById('restockModal'));
+            restockModal.show();
 
-            const thresholdCell = row.children[4];
-            const statusCell = row.children[5];
-            statusCell.textContent = getStatus(currentStock, parseInt(thresholdCell.textContent, 10));
+            // Handle the restock form submission
+            restockForm.addEventListener("submit", (event) => {
+                event.preventDefault();
+                const restockAmount = parseInt(restockAmountInput.value.trim(), 10);
+
+                if (!restockAmount || isNaN(restockAmount)) {
+                    alert("Please enter a valid restock amount.");
+                    return;
+                }
+
+                const newStock = currentStock + restockAmount;
+                stockCell.textContent = newStock;
+
+                const thresholdCell = row.children[4];
+                const statusCell = row.children[5];
+                statusCell.textContent = getStatus(newStock, parseInt(thresholdCell.textContent, 10));
+
+                // Close the Restock Modal
+                restockModal.hide();
+                restockForm.reset();
+            });
         });
 
         // Edit functionality
