@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Report</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="salesreport.css">
+</head>
+<body class="slide-in">
+    <div class="container-fluid">
+        <div class="row">
+            <body>
+                  <div class="sidebar">
+                    <div class="logo-section">
+                      <img src="img/logo.png" alt="Logo" class="logo">
+                    </div>
+                    <div class="menu-links">
+                      <a href="index.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                      <a href="inventory.html"><i class="fas fa-archive"></i> Inventory</a>
+                      <a href="POS.html"><i class="fas fa-cash-register"></i> Point of Sales</a>
+                      <a href="salesreport.html"><i class="fas fa-file-invoice"></i> Sales Report</a>
+                      <a href="account.html"><i class="fas fa-user-cog"></i> Account</a>
+                    </div>
+                    <div class="bottom-links">
+                      <a href="login.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                  </div>
+
+            <div class="wrapper">
+                <div class="content">
+            <div class="col-md-10">
+                <div class="content border border-3 border-light border rounded">
+                    <h1>Sales Report</h1>
+                    <p>Sales related report of the hardware store.</p>
+                
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label for="dateRange" class="form-label fw-bold">Date Range</label>
+                            <input type="text" id="dateRange" class="form-control border border-1 border-dark border rounded" value="01 December 2021 - 31 December 2021" readonly>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="category" class="form-label fw-bold">Category</label>
+                            <select id="category" class="form-select border border-1 border-dark border rounded">
+                                <option selected>- Select Category -</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="table-responsive table-container">
+                        <table class="table table-bordered border border-1 border-dark border rounded">
+                            <thead class="table-light border border-1 border-dark border rounded">
+                                <tr>
+                                    <th>Product Name</th>
+                                    <th>Product ID</th>
+                                    <th>Product Sold</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>PVC Weatherproof Socket</td>
+                                    <td>2485855848598</td>
+                                    <td>28</td>
+                                    <td>Aug 27, 2024</td>
+                                </tr>
+                                <tr>
+                                    <td>Receptacle</td>
+                                    <td>2485855848577</td>
+                                    <td>12</td>
+                                    <td>Aug 27, 2024</td>
+                                </tr>
+                                <tr>
+                                    <td>Electrical Tape</td>
+                                    <td>2485855848599</td>
+                                    <td>25</td>
+                                    <td>Aug 27, 2024</td>
+                                </tr>
+                                <tr>
+                                    <td>Screw Adaptor</td>
+                                    <td>2485855848568</td>
+                                    <td>45</td>
+                                    <td>Aug 27, 2024</td>
+                                </tr>
+                                <tr>
+                                    <td>PVC Ball Valve</td>
+                                    <td>2485855848567</td>
+                                    <td>13</td>
+                                    <td>Aug 27, 2024</td>
+                                </tr>
+                                <tr>
+                                    <td>Teplon</td>
+                                    <td>2485855848544</td>
+                                    <td>18</td>
+                                    <td>Aug 27, 2024</td>
+                                </tr>
+                                <tr>
+                                    <td>Teplon</td>
+                                    <td>2485855848544</td>
+                                    <td>18</td>
+                                    <td>Aug 27, 2024</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
