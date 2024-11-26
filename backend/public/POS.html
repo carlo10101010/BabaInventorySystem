@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Purchase Order</title>
+  
+  <!-- Font Awesome for icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  
+  <!-- Link to the external CSS file -->
+  <link rel="stylesheet" href="POS.css">
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="logo-section">
+      <img src="img/logo.png" alt="Logo" class="logo">
+    </div>
+    <div class="menu-links">
+      <a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+      <a href="inventory.html"><i class="fas fa-archive"></i> Inventory</a>
+      <a href="POS.html"><i class="fas fa-cash-register"></i> Point of Sales</a>
+      <a href="salesreport.html"><i class="fas fa-file-invoice"></i> Sales Report</a>
+      <a href="account.html"><i class="fas fa-user-cog"></i> Account</a>
+    </div>
+    <div class="bottom-links">
+      <a href="login.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+  </div>
+
+  <!-- Main Content Wrapper -->
+  <div class="content-wrapper">
+    <h1>Purchase Order</h1>
+    
+    <!-- Purchase Order Form -->
+    <div class="purchase-order-wrapper">
+      <div class="item-selection">
+        <h2>Select Items</h2>
+        
+        <!-- Item Selection Section -->
+        <div class="item-row">
+          <label for="item-name">Item</label>
+          <select id="item-name">
+            <!-- Options will be populated dynamically from the backend -->
+          </select>
+        </div>
+        
+        <div class="item-row">
+          <label for="unit-price">Unit Price</label>
+          <input type="number" id="unit-price" value="0" readonly>
+        </div>
+        
+        <div class="item-row">
+          <label for="quantity">Quantity</label>
+          <input type="number" id="quantity" value="1">
+        </div>
+        
+        <button id="add-to-list" class="btn">Add to List</button>
+      </div>
+
+      <!-- Order List Section -->
+      <div class="order-list">
+        <h2>Order List</h2>
+        <table id="order-table">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Unit Price</th>
+              <th>Quantity</th>
+              <th>Total</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="order-body">
+            <!-- Items will be added here -->
+          </tbody>
+        </table>
+        
+        <div class="order-total">
+          <p>Total Order Amount: $<span id="total-amount">0.00</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript for handling the frontend logic -->
+  <script>
+    const apiUrl = 'http://localhost:3000/api'; // Backend API base URL
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const itemNameSelect = document.getElementById('item-name');
+      const unitPriceInput = document.getElementById('unit-price');
+      const quantityInput = document.getElementById('quantity');
+      const addToListButton = document.getElementById('add-to-list');
+      const orderBody = document.getElementById('order-body');
+      const totalAmountElement = document.getElementById('total-amount');
+
+      let orderList = []; // Tracks current order items
+
+      // Fetch products from the backend and populate the item dropdown
+      async function fetchProducts() {
+        try {
+          const response = await fetch(`${apiUrl}/products`);
+          const products = await response.json();
+          products.forEach(product => {
+            const option = document.createElement('option');
+            option.value = product._id; // Using product ID as the value
+            option.textContent = product.productName; // Display product name in the dropdown
+            option.dataset.price = product.price || 0; // Assuming you might add price field to products
+            itemNameSelect.appendChild(option);
+          });
+
+          // Set default price for the first product if available
+          if (products.length > 0) {
+            unitPriceInput.value = products[0].price || 0;
+          }
+        } catch (error) {
+          console.error('Error fetching products:', error);
+        }
+      }
+
+      // Update unit price when a product is selected
+      itemNameSelect.addEventListener('change', (e) => {
+        const selectedOption = e.target.selectedOptions[0];
+        unitPriceInput.value = selectedOption.dataset.price || 0;
+      });
+
+      // Add item to the order list
+      addToListButton.addEventListener('click', () => {
+        const selectedOption = itemNameSelect.selectedOptions[0];
+        const itemName = selectedOption.textContent;
+        const unitPrice = parseFloat(unitPriceInput.value);
+        const quantity = parseInt(quantityInput.value);
+
+        if (!itemName || isNaN(unitPrice) || isNaN(quantity) || quantity <= 0) {
+          alert('Please fill out all fields correctly.');
+          return;
+        }
+
+        const orderItem = {
+          name: itemName,
+          unitPrice,
+          quantity,
+          total: unitPrice * quantity,
+        };
+
+        orderList.push(orderItem);
+        renderOrderList();
+      });
+
+      // Render the order list and calculate the total amount
+      function renderOrderList() {
+        orderBody.innerHTML = '';
+        let totalAmount = 0;
+
+        orderList.forEach((item, index) => {
+          totalAmount += item.total;
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${item.name}</td>
+            <td>$${item.unitPrice.toFixed(2)}</td>
+            <td>${item.quantity}</td>
+            <td>$${item.total.toFixed(2)}</td>
+            <td><button class="delete-btn" data-index="${index}">Delete</button></td>
+          `;
+          orderBody.appendChild(row);
+        });
+
+        totalAmountElement.textContent = totalAmount.toFixed(2);
+
+        document.querySelectorAll('.delete-btn').forEach(button => {
+          button.addEventListener('click', (e) => {
+            const index = e.target.dataset.index;
+            orderList.splice(index, 1);
+            renderOrderList();
+          });
+        });
+      }
+
+      fetchProducts(); // Initialize product list
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,102 @@
+/* General body setup */
+body {
+  background: linear-gradient(135deg, #6e7c7c, #2d3a3a);
+  height: 100vh;
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Logo styling */
+.logo {
+    max-width: 200px; /* Adjust the size as needed */
+    height: auto;
+    display: block;
+    margin: 0px auto 0px auto; /* Centers the logo and adds space below it */
+}
+
+/* Welcome message styling */
+.welcome-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 200px;
+  flex-direction: column; /* Align the content in column */
+}
+
+.welcome-message h1 {
+  font-size: 40px;
+  font-weight: 600;
+  color: white;
+  text-align: center;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Login section layout */
+.login-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+
+/* Card styling for login */
+.card {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 15px;
+  padding: 20px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Form styling */
+.card .form-label {
+  font-weight: 500;
+  color: #333;
+}
+
+.card .form-control {
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+/* Button styling */
+button {
+  background-color: #ff5722;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #e64a19;
+}
+
+/* Links styling */
+.text-center a {
+  color: #ff5722;
+  font-weight: 600;
+}
+
+.text-center a:hover {
+  text-decoration: underline;
+}
+
+/* Media Queries for responsiveness */
+@media (max-width: 768px) {
+  .welcome-message h1 {
+      font-size: 28px;
+  }
+
+  .card {
+      padding: 15px;
+      width: 100%;
+  }
+}

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventory</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="inventory.css">
+</head>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="logo-section">
+      <img src="img/logo.png" alt="Logo" class="logo">
+    </div>
+    <div class="menu-links">
+      <a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+      <a href="inventory.html"><i class="fas fa-archive"></i> Inventory</a>
+      <a href="POS.html"><i class="fas fa-cash-register"></i> Point of Sales</a>
+      <a href="salesreport.html"><i class="fas fa-file-invoice"></i> Sales Report</a>
+      <a href="account.html"><i class="fas fa-user-cog"></i> Account</a>
+    </div>
+    <div class="bottom-links">
+      <a href="login.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+  </div>
+
+  <!-- Wrapper (Content Area) -->
+  <div class="wrapper">
+    <h1>INVENTORY</h1>
+
+    <!-- Search Bar and Filter Options -->
+    <div class="filters">
+      <input type="text" id="searchInput" placeholder="Search by name or ID..." class="search-bar">
+      <div class="filter-options">
+        <select id="categoryFilter">
+          <option value="all">All Categories</option>
+          <option value="electronics">Electronics</option>
+          <option value="apparel">Apparel</option>
+        </select>
+        <select id="statusFilter">
+          <option value="all">All Status</option>
+          <option value="inStock">In Stock</option>
+          <option value="lowStock">Low Stock</option>
+          <option value="outOfStock">Out of Stock</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Quick Action Buttons -->
+    <div class="action-buttons">
+      <button id="addProductBtn" class="btn btn-primary">Add New Product</button>
+    </div>
+
+    <!-- Product Table -->
+    <div class="table-container">
+      <h2>Product Inventory</h2>
+      <table id="productTable" class="table table-striped">
+        <thead>
+          <tr>
+            <th>Product Name</th>
+            <th>Product ID</th>
+            <th>Category</th>
+            <th>Stock Left</th>
+            <th>Threshold/Min Stock</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Example Product Rows (can be dynamically populated) -->
+          <tr data-status="inStock">
+            <td>Wireless Mouse</td>
+            <td>001</td>
+            <td>Electronics</td>
+            <td>100</td>
+            <td>20</td>
+            <td>In Stock</td>
+            <td>
+              <button class="btn btn-success btn-sm restock-btn">Restock</button>
+              <button class="btn btn-warning btn-sm edit-btn">Edit</button>
+              <button class="btn btn-danger btn-sm delete-btn">Delete</button>
+            </td>
+          </tr>
+          <!-- Add more rows as needed -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Modal for Add New Product Form -->
+  <div class="modal fade" id="addItemModal" tabindex="-1" aria-labelledby="addItemModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addItemModalLabel">Add New Product</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="addItemForm">
+              <div class="mb-3">
+                  <label for="productName" class="form-label">Product Name</label>
+                  <input type="text" class="form-control" id="productName" required>
+              </div>
+              <div class="mb-3">
+                  <label for="category" class="form-label">Category</label>
+                  <select class="form-select" id="category" required>
+                      <option value="Tools">Tools</option>
+                      <option value="Plumbing Supply">Plumbing Supply</option>
+                      <option value="Electrical Supplies">Electrical Supplies</option>
+                  </select>
+              </div>
+              <div class="mb-3">
+                  <label for="stock" class="form-label">Stock Quantity</label>
+                  <input type="number" class="form-control" id="stock" min="1" required>
+              </div>
+              <div class="mb-3">
+                  <label for="threshold" class="form-label">Threshold/Min Stock</label>
+                  <input type="number" class="form-control" id="threshold" min="1" required>
+              </div>
+              <button type="submit" class="btn btn-primary">Save Item</button>
+          </form>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="inventory.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

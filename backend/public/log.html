@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BABA Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="log.css">
+</head>
+<body class="fade-in">
+    <!-- Main container with grid layout -->
+    <div class="container-fluid d-flex min-vh-100 p-0">
+        <!-- Welcome message occupies 2/4 of the screen -->
+        <div class="welcome-message col-12 col-md-6 d-flex align-items-center justify-content-center flex-column p-5">
+            <!-- Logo added above the welcome message -->
+            <img src="img/logo.png" alt="BABA Hardware Store Logo" class="logo mb-4">
+            <h1 class="text-white text-center">
+                Welcome to <br> BABA's Hardware Store <br> Inventory System
+            </h1>
+        </div>
+
+        <!-- Login card occupies 2/4 of the screen -->
+        <div class="login-section col-12 col-md-6 d-flex justify-content-center align-items-center p-4">
+            <div class="card shadow-lg p-4 rounded-4 w-100">
+                <h2 class="text-center mb-3">Welcome Back!</h2>
+                <p class="text-center mb-4">Please enter your login details below</p>
+                <form id="loginForm">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+                    </div>
+                    <button type="button" id="navigateButton" class="btn btn-danger w-100">Log in</button>
+                </form>
+            </div>
+        </div>
+    </div>
+<!-- Move your script here, just before the closing body tag -->
+<script>
+    document.getElementById('navigateButton').addEventListener('click', async function (event) {
+  event.preventDefault();
+  
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+
+  try {
+    const response = await fetch('/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      // If login is successful, store the JWT token in localStorage
+      const token = data.token;
+      localStorage.setItem('authToken', token);
+
+      alert(data.message); // Show success message
+      window.location.href = 'dashboard.html'; // Redirect to dashboard page
+    } else {
+      alert(data.message || 'Login failed');
+    }
+  } catch (error) {
+    console.error('Error during login:', error);
+    alert('An error occurred. Please try again.');
+  }
+});
+
+  </script>
+  
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
