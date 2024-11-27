@@ -98,7 +98,7 @@ h1 {
 .filter-inputs {
   display: flex;
   align-items: center;
-  gap: 20px; /* Spacing between search, category, and status filters */
+  gap: 20px; 
 }
 
 
@@ -111,11 +111,12 @@ h1 {
 select {
   padding: 10px 15px;
   font-size: 16px;
-  background-color: #3a4a63;
-  color: #333;
   border: 1px solid #ddd;
   border-radius: 5px;
   cursor: pointer;
+}
+.modal-title {
+  color: #263548;
 }
 
 .action-buttons {

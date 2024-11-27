@@ -1,66 +1,46 @@
+/* Reset some default styles */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    background-color: #f4f7fc;
-    color: #333;
-  }
-  
-  /* Sidebar */
-  .sidebar {
-    background-color: #263548;
-    color: white;
-    width: 250px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    border-right: 2px solid #1a2939;
-  }
-  
-  .sidebar .logo-section {
-    text-align: center;
-  }
-  
-  .sidebar .logo {
-    width: 120px;
-    height: auto;
-    margin-bottom: 20px;
-  }
-  
-  .sidebar .menu-links a {
-    color: white;
-    text-decoration: none;
-    display: block;
-    margin: 15px 0;
-    padding: 10px 15px;
-    font-size: 16px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .sidebar .menu-links a:hover {
-    background-color: #1a2939;
-  }
-  
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  background-color: #f4f7fc;
+  color: #333;
+}
+
 /* Sidebar */
-.sidebar .bottom-links {
-  margin-top: auto;
+.sidebar {
+  background-color: #263548;
   color: white;
-  }
-  
-  .sidebar .bottom-links a {
-  color: white; 
+  width: 250px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  border-right: 2px solid #1a2939;
+}
+
+.sidebar .logo-section {
+  text-align: center;
+}
+
+.sidebar .logo {
+  width: 120px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.sidebar .menu-links a {
+  color: white;
   text-decoration: none;
   display: block;
   margin: 15px 0;
@@ -68,108 +48,194 @@
   font-size: 16px;
   border-radius: 5px;
   transition: background-color 0.3s ease;
-  }
-  
-  .sidebar .bottom-links a:hover {
-  background-color: #1a2939;
-  }
+}
 
-  .content-wrapper {
-    margin-left: 270px;
-    padding: 30px;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-  }
-  
-  h1 {
-    text-align: center;
-    font-size: 32px;
-    margin-bottom: 30px;
-  }
-  
-  .purchase-order-wrapper {
-    max-width: 1000px;
-    margin: 0 auto;
-  }
-  
-  .item-selection {
-    margin-bottom: 30px;
-  }
-  
-  .item-selection h2 {
-    font-size: 24px;
-    margin-bottom: 15px;
-  }
-  
-  .item-row {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
-  }
-  
-  .item-row label {
-    flex: 1;
-    font-size: 16px;
-  }
-  
-  .item-row input, .item-row select {
-    padding: 10px;
-    width: 200px;
-    font-size: 16px;
-    margin-left: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
-  
-  #add-to-list {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  #add-to-list:hover {
-    background-color: #0056b3;
-  }
-  
-  .order-list {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .order-list h2 {
-    font-size: 24px;
-    margin-bottom: 15px;
-  }
-  
-  #order-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-  }
-  
-  #order-table th, #order-table td {
-    padding: 12px;
-    text-align: left;
-    border: 1px solid #ddd;
-  }
-  
-  #order-table th {
-    background-color: #f4f7fc;
-  }
-  
-  .order-total {
-    text-align: right;
-    font-size: 18px;
-    font-weight: bold;
-  }
-  
-  .order-total p {
-    font-size: 20px;
-    color: #28a745;
-  }
-  
+.sidebar .menu-links a:hover {
+  background-color: #1a2939;
+}
+
+.sidebar .bottom-links {
+  margin-top: auto;
+  color: white;
+}
+
+.sidebar .bottom-links a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  margin: 15px 0;
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar .bottom-links a:hover {
+  background-color: #1a2939;
+}
+
+/* Main Content */
+.content-wrapper {
+  margin-left: 270px;
+  padding: 30px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+h1 {
+  text-align: center;
+  font-size: 32px;
+  margin-bottom: 30px;
+}
+
+/* Item Row */
+.item-row {
+  display: block;
+  margin-bottom: 12px;  /* Slightly reduced space between rows for a more compact layout */
+}
+
+.item-row label {
+  display: block;
+  font-weight: bold;
+  font-size: 14px; 
+  margin-top: 10px;
+  margin-bottom: 4px;  /* Reduced space between label and input */
+}
+
+.item-row input, .item-row select {
+  padding: 8px;  /* Reduced padding for smaller inputs */
+  width: 100%;  /* Full width */
+  font-size: 14px;  /* Smaller font size */
+  height: 35px;  /* Set a smaller height for inputs */
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+/* Form Button */
+#add-to-list {
+  padding: 8px 16px;  /* Adjusted button padding */
+  font-size: 14px;  /* Reduced button font size */
+  height: 40px;  /* Adjusted button height */
+  width: 100%;  /* Full width */
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+
+
+/* General Button Style */
+.btn {
+  color: white;
+  background-color: #007bff;
+  font-size: 20px;
+  margin-left: 83%;
+  padding: 5px 30px;  /* Reduced top/bottom padding to make the button shorter */
+  width: 200px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+
+.submit {
+  color: white;
+  background-color: #007bff;
+  font-size: 20px;
+  margin-left: 23%;
+  padding: 5px 30px;
+  width: 200px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.submit:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+
+.btn:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Modal Styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;  /* Reduced the width of the modal to make it smaller */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.close {
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  color: #aaa;
+  cursor: pointer;
+}
+
+.close:hover, .close:focus {
+  color: black;
+  text-decoration: none;
+}
+
+/* Order List */
+.order-list {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#order-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+#order-table th, #order-table td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+#order-table th {
+  background-color: #f4f7fc;
+}
+
+.order-total p {
+  text-align: right;
+  font-size: 20px;
+  font-weight: bold;
+  color: #28a745;
+}
