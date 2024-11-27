@@ -10,10 +10,10 @@ let orderList = [];
 
 async function fetchCategories() {
   try {
-    const response = await fetch(`${apiUrl}/categories`);
+    const response = await fetch(`${apiUrl}/sales`);  // Fetch categories from your backend
     if (!response.ok) throw new Error('Failed to fetch categories');
 
-    const categories = await response.json();
+    const categories = await response.json();  // Assuming your backend sends a list of categories
     itemCategorySelect.innerHTML = '';  // Clear previous options
     categories.forEach(category => {
       const option = document.createElement('option');
@@ -34,19 +34,18 @@ async function fetchProductsByCategory(category) {
     if (!response.ok) throw new Error('Failed to fetch products');
 
     const products = await response.json();
-    const productDropdown = document.getElementById('product-dropdown'); // Make sure you have a dropdown for products
-    productDropdown.innerHTML = ''; // Clear previous products
+    itemNameSelect.innerHTML = '';  // Clear previous options for products
 
     products.forEach(product => {
       const option = document.createElement('option');
       option.value = product._id;
       option.textContent = product.productName;
-      option.dataset.price = product.price || 0;
-      productDropdown.appendChild(option);
+      option.dataset.price = product.price || 0;  // Add product price as dataset
+      itemNameSelect.appendChild(option);
     });
 
     if (products.length > 0) {
-      unitPriceInput.value = products[0].price || 0;
+      unitPriceInput.value = products[0].price || 0;  // Set the default price of the first product
     }
   } catch (error) {
     console.error('Error fetching products:', error);
@@ -58,13 +57,13 @@ async function fetchProductsByCategory(category) {
 itemCategorySelect.addEventListener('change', (e) => {
   const selectedCategory = e.target.value;
   if (selectedCategory) {
-    fetchProductsByCategory(selectedCategory); // Fetch products when a category is selected
+    fetchProductsByCategory(selectedCategory);  // Fetch products when a category is selected
   }
 });
 
 // Add item to the order list
 addToListButton.addEventListener('click', () => {
-  const selectedOption = document.getElementById('product-dropdown').selectedOptions[0]; // Get selected product
+  const selectedOption = itemNameSelect.selectedOptions[0];  // Get selected product
   const itemName = selectedOption.textContent;
   const unitPrice = parseFloat(unitPriceInput.value);
   const quantity = parseInt(quantityInput.value);
