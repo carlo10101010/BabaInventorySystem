@@ -1,10 +1,9 @@
-// Modal functionality
 const modal = document.getElementById("modal");
 const openModalBtn = document.getElementById("open-modal");
 const closeModalBtn = document.querySelector(".close");
 const addItemForm = document.getElementById("add-item-form");
 
-let orderList = [];
+let orderList = []; // Temporary storage only, cleared on reload
 
 // Open the modal
 openModalBtn.addEventListener("click", () => {
@@ -35,6 +34,10 @@ addItemForm.addEventListener("submit", (e) => {
   if (itemName && unitPrice > 0 && quantity > 0) {
     const total = unitPrice * quantity;
     orderList.push({ name: itemName, price: unitPrice, quantity, total });
+
+    // Save to sessionStorage temporarily
+    sessionStorage.setItem("currentOrder", JSON.stringify(orderList));
+
     updateOrderList();
 
     // Reset form and close modal
@@ -43,7 +46,7 @@ addItemForm.addEventListener("submit", (e) => {
   }
 });
 
-// Update order list table
+// Update order list table and total sales
 function updateOrderList() {
   const orderBody = document.getElementById("order-body");
   const totalAmountElement = document.getElementById("total-amount");
@@ -71,7 +74,61 @@ function updateOrderList() {
     button.addEventListener("click", (e) => {
       const index = e.target.getAttribute("data-index");
       orderList.splice(index, 1);
+      sessionStorage.setItem("currentOrder", JSON.stringify(orderList));
       updateOrderList();
     });
   });
 }
+
+// Handle the confirm action in POS when the user clicks 'Confirm'
+document.getElementById("confirm-order").addEventListener("click", function () {
+  if (orderList.length === 0) {
+    alert("No items in the order list to confirm!");
+    return;
+  }
+
+  // Store the order list to sessionStorage
+  sessionStorage.setItem("currentOrder", JSON.stringify(orderList));
+
+  // Optionally, log to the console to confirm it's being stored
+  console.log("Order Confirmed and Stored:", orderList);
+
+  alert("Order confirmed and sent to Sales Report!");
+
+  // Clear the current order list in POS after confirmation
+  orderList = [];
+  updateOrderList();
+});
+
+// Add an event listener to populate the unit price input and dropdown
+document.getElementById("item-name").addEventListener("change", function () {
+  const selectedOption = this.options[this.selectedIndex];
+  const unitPrice = selectedOption.getAttribute("data-price");
+
+  // Populate the dropdown with price options
+  const unitPriceDropdown = document.getElementById("unit-price-options");
+  unitPriceDropdown.innerHTML = `
+    <button type="button" class="dropdown-option" data-price="${unitPrice}">${unitPrice}</button>
+  `;
+
+  // Update the value of the unit price input when an option is selected
+  document.querySelectorAll(".dropdown-option").forEach((button) => {
+    button.addEventListener("click", (e) => {
+      const price = parseFloat(e.target.getAttribute("data-price"));
+      document.getElementById("unit-price").value = price;
+      document.getElementById("unit-price-options").style.display = "none";
+    });
+  });
+
+  document.getElementById("unit-price-dropdown-btn").addEventListener("click", () => {
+    const options = document.getElementById("unit-price-options");
+    options.style.display = options.style.display === "block" ? "none" : "block";
+  });
+});
+
+document.getElementById("quantity").addEventListener("focus", function () {
+  const quantityDropdown = document.getElementById("quantity-dropdown");
+  if (quantityDropdown) {
+    quantityDropdown.style.display = "none";
+  }
+});

@@ -22,7 +22,6 @@ body {
     z-index: -1;
   }
 
-  /* Reset some default styles */
 * {
   margin: 0;
   padding: 0;
@@ -77,8 +76,8 @@ body {
 .sidebar .menu-links a:hover {
   background-color: #1a2939;
 }
+ 
 
-/* Sidebar */
 .sidebar .bottom-links {
   margin-top: auto;
   color: white; 

@@ -91,7 +91,7 @@ h1 {
 /* Item Row */
 .item-row {
   display: block;
-  margin-bottom: 12px;  /* Slightly reduced space between rows for a more compact layout */
+  margin-bottom: 12px; 
 }
 
 .item-row label {
@@ -99,24 +99,24 @@ h1 {
   font-weight: bold;
   font-size: 14px; 
   margin-top: 10px;
-  margin-bottom: 4px;  /* Reduced space between label and input */
+  margin-bottom: 4px;  
 }
 
 .item-row input, .item-row select {
-  padding: 8px;  /* Reduced padding for smaller inputs */
-  width: 100%;  /* Full width */
-  font-size: 14px;  /* Smaller font size */
-  height: 35px;  /* Set a smaller height for inputs */
+  padding: 8px; 
+  width: 100%; 
+  font-size: 14px;  
+  height: 35px; 
   border: 1px solid #ddd;
   border-radius: 4px;
 }
 
 /* Form Button */
 #add-to-list {
-  padding: 8px 16px;  /* Adjusted button padding */
-  font-size: 14px;  /* Reduced button font size */
-  height: 40px;  /* Adjusted button height */
-  width: 100%;  /* Full width */
+  padding: 8px 16px; 
+  font-size: 14px; 
+  height: 40px; 
+  width: 100%; 
   border-radius: 4px;
   background-color: #007bff;
   color: white;
@@ -131,7 +131,7 @@ h1 {
   background-color: #007bff;
   font-size: 20px;
   margin-left: 83%;
-  padding: 5px 30px;  /* Reduced top/bottom padding to make the button shorter */
+  padding: 5px 30px;
   width: 200px;
   border: none;
   border-radius: 8px;
@@ -192,7 +192,7 @@ h1 {
   margin: 10% auto;
   padding: 20px;
   border-radius: 8px;
-  width: 400px;  /* Reduced the width of the modal to make it smaller */
+  width: 400px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
@@ -238,4 +238,24 @@ h1 {
   font-size: 20px;
   font-weight: bold;
   color: #28a745;
+}
+
+.btn-confirm {
+  display: block;
+  margin-left: 83%;
+  padding: 5px 30px; 
+  width: 200px;
+  font-size: 20px;
+  color: white;
+  background-color: #28a745;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-confirm:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
 }
