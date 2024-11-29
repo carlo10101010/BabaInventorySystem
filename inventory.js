@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const searchBar = document.getElementById("searchInput");
     const restockForm = document.getElementById("restockForm");
     const restockAmountInput = document.getElementById("restockAmount");
+    const restockModalTitle = document.getElementById("restockModalLabel"); 
 
     let editingRow = null;
     let productIdCounter = 1; // Start product ID counter
@@ -85,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Generate a unique Product ID
     function generateProductID() {
-        const id = productIdCounter.toString().padStart(3, '0'); // Format as 3-digit ID
+        const id = productIdCounter.toString().padStart(3, '0'); 
         productIdCounter++;
         return id;
     }
@@ -108,10 +109,12 @@ document.addEventListener("DOMContentLoaded", () => {
         // Restock functionality
         restockBtn.addEventListener("click", () => {
             const stockCell = row.children[3];
+            const productName = row.children[0].textContent; 
             const currentStock = parseInt(stockCell.textContent, 10);
             
             // Open Restock Modal
             const restockModal = new bootstrap.Modal(document.getElementById('restockModal'));
+            restockModalTitle.textContent = `Restock Product: ${productName}`; 
             restockModal.show();
 
             // Handle the restock form submission
@@ -134,7 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 // Close the Restock Modal
                 restockModal.hide();
                 restockForm.reset();
-            });
+            }, { once: true }); 
         });
 
         // Edit functionality
@@ -142,8 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // Store the row being edited
             editingRow = row;
 
-            // Pre-fill modal with existing row data
-            document.getElementById("productName").value = row.children[0].textContent.trim();
+            // Pre-fill modal with existing row data, excluding the product name
             document.getElementById("category").value = row.children[2].textContent.trim();
             document.getElementById("stock").value = parseInt(row.children[3].textContent.trim(), 10);
             document.getElementById("threshold").value = parseInt(row.children[4].textContent.trim(), 10);

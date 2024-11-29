@@ -31,40 +31,45 @@
     <button id="open-modal" class="btn">Add to List</button>
 
     <!-- Modal -->
-    <div id="modal" class="modal">
-      <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2>Add Item to Order List</h2>
-        <form id="add-item-form">
-          <div class="item-row">
-            <label for="item-name">Product Name</label>
-            <select id="item-name" required>
-              <option value="" disabled selected>Select a product</option>
-              <option value="Wireless Mouse" data-price="">PWireless Mouse</option>
-              <option value="Tape" data-price="">Tape</option>
-              <option value="Screw" data-price="">Screw</option>
-            </select>
-          </div>
-
-          <div class="item-row">
-            <label for="unit-price">Unit Price</label>
-            <input type="number" id="unit-price" required>
-            <div id="unit-price-dropdown" class="dropdown">
-              <button type="button" id="unit-price-dropdown-btn"></button>
-              <div id="unit-price-options" class="dropdown-content">
-              </div>
-            </div>
-          </div>
-
-          <div class="item-row">
-            <label for="quantity">Quantity</label>
-            <input type="number" id="quantity" required>
-          </div>
-
-          <button type="submit" class="submit">Add to List</button>
-        </form>
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Add Item to Order List</h2>
+    <form id="add-item-form">
+      <div class="item-row">
+        <label for="item-name">Product Name</label>
+        <select id="item-name" required>
+          <option value="" disabled selected>Select a product</option>
+          <option value="Wireless Mouse">Wireless Mouse</option>
+          <option value="Tape">Tape</option>
+          <option value="Screw">Screw</option>
+        </select>
       </div>
-    </div>
+
+      <div class="item-row">
+        <label for="category">Category</label>
+        <select id="category" required>
+          <option value="" disabled selected>Select a category</option>
+          <option value="Electronics">Tools</option>
+          <option value="Office Supplies">Plumbing Supply</option>
+          <option value="Hardware">Electrical Supplies</option>
+        </select>
+      </div>
+
+      <div class="item-row">
+        <label for="unit-price">Unit Price</label>
+        <input type="number" id="unit-price" required>
+      </div>
+
+      <div class="item-row">
+        <label for="quantity">Quantity</label>
+        <input type="number" id="quantity" required>
+      </div>
+
+      <button type="submit" class="submit">Add to List</button>
+    </form>
+  </div>
+</div>
 
     <!-- Order List -->
     <div class="order-list">
@@ -74,6 +79,7 @@
           <tr>
             <th>Item</th>
             <th>Unit Price</th>
+            <th>Category</th>
             <th>Quantity</th>
             <th>Total</th>
             <th>Actions</th>

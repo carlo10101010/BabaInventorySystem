@@ -55,8 +55,8 @@
       <table id="productTable" class="table table-striped">
         <thead>
           <tr>
-            <th>Product ID</th>
             <th>Product Name</th>
+            <th>Product ID</th>
             <th>Category</th>
             <th>Stock Left</th>
             <th>Threshold/Min Stock</th>
@@ -66,8 +66,21 @@
         </thead>
         <tbody>
           <tr data-status="inStock">
-            <td>001</td>
             <td>Wireless Mouse</td>
+            <td>001</td>
+            <td>Electronics</td>
+            <td>100</td>
+            <td>20</td>
+            <td>In Stock</td>
+            <td>
+              <button class="btn btn-success btn-sm restock-btn">Restock</button>
+              <button class="btn btn-warning btn-sm edit-btn">Edit</button>
+              <button class="btn btn-danger btn-sm delete-btn">Delete</button>
+            </td>
+          </tr>
+          <tr data-status="inStock">
+            <td>Tape</td>
+            <td>001</td>
             <td>Electronics</td>
             <td>100</td>
             <td>20</td>
@@ -120,26 +133,26 @@
     </div>
   </div>
 
-  <!-- Modal for Restock Form -->
-  <div class="modal fade" id="restockModal" tabindex="-1" aria-labelledby="restockModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+  <!-- Restock Modal -->
+<div class="modal fade" id="restockModal" tabindex="-1" aria-labelledby="restockModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="restockModalLabel">Restock Product</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form id="restockForm">
-            <div class="mb-3">
-              <label for="restockAmount" class="form-label">Restock Amount</label>
-              <input type="number" class="form-control" id="restockAmount" min="1" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Restock</button>
-          </form>
-        </div>
+          <div class="modal-header">
+              <h5 class="modal-title" id="restockModalLabel">Restock Product</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <form id="restockForm">
+                  <div class="mb-3">
+                      <label for="restockAmount" class="form-label">Restock Amount</label>
+                      <input type="number" class="form-control" id="restockAmount" required>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+          </div>
       </div>
-    </div>
   </div>
+</div>
 
   <!-- JavaScript -->
   <script src="inventory.js"></script>
