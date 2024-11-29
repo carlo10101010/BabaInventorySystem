@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const restockModalTitle = document.getElementById("restockModalLabel"); 
 
     let editingRow = null;
-    let productIdCounter = 1; // Start product ID counter
+    let productIdCounter = 1; 
 
     // Add new product or edit existing product
     addItemForm.addEventListener("submit", (event) => {
@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // If editing an existing row
         if (editingRow) {
             updateRow(editingRow, productName, category, stock, threshold, status);
-            editingRow = null; // Reset the editingRow to null after editing
+            editingRow = null; 
         } else {
             // Generate a new Product ID
             const productID = generateProductID();
@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // Add a new product row
             const newRow = createNewRow(productName, productID, category, stock, threshold, status);
             tableBody.appendChild(newRow);
-            attachRowEventListeners(newRow); // Attach event listeners to the new row's buttons
+            attachRowEventListeners(newRow); 
         }
 
         // Close the modal after form submission
@@ -45,12 +45,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Reset form for the next entry or edit
         addItemForm.reset();
+
+        // Reset read-only and disabled properties
+        document.getElementById("productName").readOnly = false;
+        document.getElementById("category").disabled = false;
     });
 
     // Show modal when Add New Product button is clicked
     document.getElementById('addProductBtn').addEventListener('click', () => {
         const modal = new bootstrap.Modal(document.getElementById('addItemModal'));
         modal.show();
+
+        // Reset form for adding a new product
+        addItemForm.reset();
+        document.getElementById("productName").readOnly = false;
+        document.getElementById("category").disabled = false;
     });
 
     // Search functionality
@@ -145,8 +154,18 @@ document.addEventListener("DOMContentLoaded", () => {
             // Store the row being edited
             editingRow = row;
 
-            // Pre-fill modal with existing row data, excluding the product name
-            document.getElementById("category").value = row.children[2].textContent.trim();
+            // Pre-fill modal with existing row data
+            const productNameInput = document.getElementById("productName");
+            const categoryInput = document.getElementById("category");
+
+            productNameInput.value = row.children[0].textContent.trim(); 
+            categoryInput.value = row.children[2].textContent.trim(); 
+
+            // Make Product Name and Category Read-Only
+            productNameInput.readOnly = true;
+            categoryInput.disabled = true;
+
+            // Fill stock and threshold fields (editable)
             document.getElementById("stock").value = parseInt(row.children[3].textContent.trim(), 10);
             document.getElementById("threshold").value = parseInt(row.children[4].textContent.trim(), 10);
 
