@@ -8,6 +8,7 @@ const salesRouter = require('./routes/salesRouter');  // This line imports the s
 const authRouter = require('./routes/authRouter');  // Adjust path if needed
 const accountRouter = require('./routes/accountRouter');
 const productsRouter = require('./routes/productsRouter');
+const purchaseOrderRouter = require('./routes/purchaseOrderRouter');
 
 dotenv.config();
 const app = express();
@@ -31,6 +32,7 @@ app.use(authRouter); // This will support '/login' for POST requests
 app.use('/', authRouter);         // Supports /login
 app.use('/api/sales', salesRouter);
 app.use('/api/products', productsRouter);
+app.use('/api/purchase-orders', purchaseOrderRouter);
 app.use('/api/account', accountRouter);
 
 // Connect to MongoDB

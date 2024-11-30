@@ -1,83 +1,90 @@
-const Product = require('../models/Product'); // Import the Product model
+const Product = require("../models/Product");
+
+// Generate a unique ID for the product
+const generateUniqueId = async () => {
+  const lastProduct = await Product.findOne().sort({ _id: -1 });
+  const lastId = lastProduct ? parseInt(lastProduct.id, 10) : 0;
+  return (lastId + 1).toString().padStart(3, "0");
+};
 
 // Fetch all products
-const getAllProducts = async (req, res) => {
+exports.getProducts = async (req, res) => {
   try {
-    const products = await Product.find(); // Fetch all products from the database
-    res.status(200).json(products); // Return products as a JSON response
+    const products = await Product.find();
+    res.status(200).json(products);
   } catch (error) {
-    res.status(500).json({ message: 'Server error', error: error.message });
+    res.status(500).json({ message: "Error fetching products", error });
   }
 };
 
 // Add a new product
-const addProduct = async (req, res) => {
+exports.addProduct = async (req, res) => {
+  const { name, category, stock, threshold } = req.body;
   try {
-    const { productName, productID, productSold, category, price } = req.body;
-
-    // Validate input
-    if (!productName || !productID || !category || price == null) {
-      return res.status(400).json({ message: 'All fields are required' });
-    }
-
-    // Create a new product
+    const id = await generateUniqueId();
     const newProduct = new Product({
-      productName,
-      productID,
-      productSold: productSold || 0, // Default to 0 if not provided
+      id,
+      name,
       category,
-      price,
+      stock,
+      threshold,
+      status: stock > threshold ? "In Stock" : stock === 0 ? "Out of Stock" : "Low Stock",
     });
 
     const savedProduct = await newProduct.save();
-    res.status(201).json(savedProduct); // Return the saved product
+    res.status(201).json(savedProduct);
   } catch (error) {
-    res.status(500).json({ message: 'Server error', error: error.message });
+    res.status(500).json({ message: "Error adding product", error });
   }
 };
 
 // Update a product
-const updateProduct = async (req, res) => {
+exports.updateProduct = async (req, res) => {
+  const { id } = req.params;
+  const { name, category, stock, threshold } = req.body;
   try {
-    const { id } = req.params; // Product ID from the URL
-    const updates = req.body; // Updates from the request body
-
-    const updatedProduct = await Product.findByIdAndUpdate(id, updates, {
-      new: true, // Return the updated document
-      runValidators: true, // Run validation on the updated fields
-    });
+    const updatedProduct = await Product.findOneAndUpdate(
+      { id },
+      {
+        name,
+        category,
+        stock,
+        threshold,
+        status: stock > threshold ? "In Stock" : stock === 0 ? "Out of Stock" : "Low Stock",
+      },
+      { new: true }
+    );
 
     if (!updatedProduct) {
-      return res.status(404).json({ message: 'Product not found' });
+      return res.status(404).json({ message: "Product not found" });
     }
 
-    res.status(200).json(updatedProduct); // Return the updated product
+    res.status(200).json(updatedProduct);
   } catch (error) {
-    res.status(500).json({ message: 'Server error', error: error.message });
+    res.status(500).json({ message: "Error updating product", error });
   }
 };
 
 // Delete a product
-const deleteProduct = async (req, res) => {
+exports.deleteProduct = async (req, res) => {
+  const { id } = req.params;
   try {
-    const { id } = req.params; // Product ID from the URL
-
-    const deletedProduct = await Product.findByIdAndDelete(id);
-
+    const deletedProduct = await Product.findOneAndDelete({ id });
     if (!deletedProduct) {
-      return res.status(404).json({ message: 'Product not found' });
+      return res.status(404).json({ message: "Product not found" });
     }
-
-    res.status(200).json({ message: 'Product deleted successfully' });
+    res.status(200).json({ message: "Product deleted successfully" });
   } catch (error) {
-    res.status(500).json({ message: 'Server error', error: error.message });
+    res.status(500).json({ message: "Error deleting product", error });
   }
 };
 
-// Export the controller functions
-module.exports = {
-  getAllProducts,
-  addProduct,
-  updateProduct,
-  deleteProduct,
+// Fetch product categories
+exports.getCategories = async (req, res) => {
+  try {
+    const categories = await Product.distinct("category");
+    res.status(200).json(categories);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching categories", error });
+  }
 };

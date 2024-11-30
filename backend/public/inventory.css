@@ -56,6 +56,22 @@ body {
 
 .sidebar .bottom-links {
   margin-top: auto;
+  color: white;
+}
+
+.sidebar .bottom-links a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  margin: 15px 0;
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar .bottom-links a:hover {
+  background-color: #1a2939;
 }
 
 /* Wrapper */
@@ -68,55 +84,58 @@ h1 {
   font-size: 32px;
   font-weight: bold;
   margin-bottom: 30px;
+  text-align: center;
 }
 
+/* Filters and Add Button Section */
 .filters {
   display: flex;
-  gap: 20px;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 20px;
 }
+
+.filter-inputs {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Spacing between search, category, and status filters */
+}
+
 
 .search-bar {
   padding: 10px;
   font-size: 16px;
-  width: 200px;
+  width: 350px;
 }
 
-.filter-options {
+select {
+  padding: 10px 15px;
+  font-size: 16px;
+  background-color: #3a4a63;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.action-buttons {
   display: flex;
-  gap: 10px;
+  align-items: center;
+  justify-content: flex-end;
 }
 
-select, button {
+.action-buttons button {
   padding: 10px 20px;
-  font-size: 14px;
-  background-color: #1a2939;
-  color: white;
+  font-size: 16px;
+  background-color: #3a4a63;
+  color: #3a4a63;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 }
 
-button:hover {
-  background-color: #3a4a63;
-}
 
-button:disabled {
-  background-color: #bbb;
-  cursor: not-allowed;
-}
-
-.action-buttons {
-  margin-bottom: 20px;
-}
-
-.action-buttons button {
-  padding: 10px 20px;
-  background-color: #4caf50;
-  color: white;
-  font-size: 16px;
-}
-
+/* Table */
 .table-container {
   background-color: white;
   padding: 20px;
@@ -143,7 +162,8 @@ tbody tr:hover {
   background-color: #f1f1f1;
 }
 
-.editBtn, .deleteBtn, .restockBtn {
+/* Action Buttons in Table */
+.editBtn, .deleteBtn {
   padding: 5px 10px;
   border-radius: 5px;
   margin-right: 5px;
@@ -171,4 +191,39 @@ tbody tr:hover {
 
 .restockBtn:hover {
   background-color: #f57c00;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .wrapper {
+    margin-left: 0;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+
+  .filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filter-inputs {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .search-bar {
+    width: 100%;
+  }
+
+  .action-buttons {
+    justify-content: center;
+  }
+
+  .action-buttons button {
+    width: 100%;
+  }
 }
