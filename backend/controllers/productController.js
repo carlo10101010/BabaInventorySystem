@@ -4,7 +4,7 @@ const Product = require("../models/Product");
 const generateUniqueId = async () => {
   const lastProduct = await Product.findOne().sort({ _id: -1 });
   const lastId = lastProduct ? parseInt(lastProduct.id, 10) : 0;
-  return (lastId + 1).toString().padStart(3, "0");
+  return (lastId + 1).toString(); // Unique ID generation based on the last product's ID
 };
 
 // Fetch all products
@@ -21,7 +21,7 @@ exports.getProducts = async (req, res) => {
 exports.addProduct = async (req, res) => {
   const { name, category, stock, threshold } = req.body;
   try {
-    const id = await generateUniqueId();
+    const id = await generateUniqueId(); // Generate unique ID for the new product
     const newProduct = new Product({
       id,
       name,
@@ -32,7 +32,7 @@ exports.addProduct = async (req, res) => {
     });
 
     const savedProduct = await newProduct.save();
-    res.status(201).json(savedProduct);
+    res.status(201).json(savedProduct); // Send the saved product as response
   } catch (error) {
     res.status(500).json({ message: "Error adding product", error });
   }

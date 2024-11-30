@@ -1,5 +1,3 @@
-// inventory.js
-
 document.addEventListener("DOMContentLoaded", async function () {
   const searchInput = document.getElementById("searchInput");
   const categoryFilter = document.getElementById("categoryFilter");
@@ -44,7 +42,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       const row = productTable.insertRow();
       row.innerHTML = `
         <td>${product.name}</td>
-        <td>${product._id}</td>
+        <td>${product._id.toString()}</td> <!-- Use product._id as string -->
         <td>${product.category}</td>
         <td>${product.stock}</td>
         <td>${product.threshold}</td>
@@ -70,7 +68,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
       products = products.filter((product) => {
         const matchesSearch =
-          product.name.toLowerCase().includes(searchValue) || product._id.includes(searchValue);
+          product.name.toLowerCase().includes(searchValue) || product._id.toString().includes(searchValue);
         const matchesCategory = selectedCategory === "all" || product.category === selectedCategory;
         const matchesStatus = selectedStatus === "all" || product.status === selectedStatus;
         return matchesSearch && matchesCategory && matchesStatus;

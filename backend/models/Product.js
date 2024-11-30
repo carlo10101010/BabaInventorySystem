@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
+// models/Product.js
+const mongoose = require('mongoose');
 
 const productSchema = new mongoose.Schema({
-  id: { type: String, required: true, unique: true }, // Unique ID for each product
   name: { type: String, required: true },
   category: { type: String, required: true },
   stock: { type: Number, required: true },
@@ -9,4 +9,6 @@ const productSchema = new mongoose.Schema({
   status: { type: String, required: true },
 });
 
-module.exports = mongoose.model("Product", productSchema);
+const Product = mongoose.model('Product', productSchema);
+
+module.exports = Product;

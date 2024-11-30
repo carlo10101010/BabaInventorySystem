@@ -1,4 +1,3 @@
-// server.js
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -10,13 +9,20 @@ const accountRouter = require('./routes/accountRouter');
 const productsRouter = require('./routes/productsRouter');
 const purchaseOrderRouter = require('./routes/purchaseOrderRouter');
 
+// Load environment variables from .env file
 dotenv.config();
+
+// Check if MONGO_URI is available
+if (!process.env.MONGO_URI) {
+  console.error('MongoDB URI is not set. Please make sure the .env file is correctly configured.');
+  process.exit(1); // Exit if MongoDB URI is missing
+}
+
 const app = express();
 
 // Middleware
 app.use(express.json());  // Body parser middleware to parse JSON request body
 app.use(cors());          // CORS for cross-origin requests
-
 
 // Middleware to serve static files
 app.use(express.static(path.join(__dirname, 'public')));
@@ -35,12 +41,13 @@ app.use('/api/products', productsRouter);
 app.use('/api/purchase-orders', purchaseOrderRouter);
 app.use('/api/account', accountRouter);
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI)
-    .then(() => console.log('MongoDB connected'))
-    .catch((err) => console.error('MongoDB connection error:', err));
+// Connect to MongoDB without deprecated options
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log('MongoDB connected'))
+  .catch((err) => console.error('MongoDB connection error:', err));
+
 // Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
