@@ -12,8 +12,8 @@ function populateTable(data) {
         const row = document.createElement('tr');
 
         row.innerHTML = `
-            <td>${item.name}</td>  <!-- Using the name of the product -->
-            <td>${item.productId ? item.productId._id : 'N/A'}</td> <!-- Display product ID or 'N/A' if not available -->
+            <td>${item.name}</td> <!-- Using the name of the product -->
+            <td>${item.productId ? item.productId.name : 'N/A'}</td> <!-- Display product name (populated) -->
             <td>${item.category}</td>
             <td>${item.quantity}</td>
             <td>${item.total.toFixed(2)}</td>
