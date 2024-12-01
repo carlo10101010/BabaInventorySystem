@@ -1,99 +1,72 @@
-let currentPage = 1; // Tracks the current page
-const rowsPerPage = 10; // Number of rows per page
-let allSalesData = []; // Stores all fetched sales data (unfiltered)
-let filteredSalesData = []; // Stores sales data after filtering
+let salesData = []; // Store the fetched sales data globally
 
-// Fetch all sales data from the server
-async function fetchSalesData() {
-    try {
-        const response = await fetch('http://localhost:3000/api/sales');
-        if (response.ok) {
-            allSalesData = await response.json(); // Save all sales data
-            filteredSalesData = allSalesData; // Initialize filtered data
-            updateSalesTable(); // Update table with all sales
-            updatePagination(); // Initialize pagination
-        } else {
-            console.error('Error fetching sales data');
-        }
-    } catch (error) {
-        console.error('Error fetching data:', error);
-    }
-}
+// Function to populate the sales report table
+function populateTable(data) {
+    const tableBody = document.querySelector('tbody');
+    let totalSales = 0;
 
-// Populate the sales table with data for the current page
-function updateSalesTable() {
-    const tableBody = document.querySelector('#salesTable tbody');
-    tableBody.innerHTML = ''; // Clear existing rows
+    // Clear existing rows
+    tableBody.innerHTML = '';
 
-    // Determine the slice of data for the current page
-    const start = (currentPage - 1) * rowsPerPage;
-    const end = start + rowsPerPage;
-    const paginatedSales = filteredSalesData.slice(start, end);
-
-    // Add rows to the table
-    paginatedSales.forEach(sale => {
+    data.forEach(item => {
         const row = document.createElement('tr');
+
         row.innerHTML = `
-            <td>${sale.productName}</td>
-            <td>${sale.productID}</td>
-            <td>${sale.productSold}</td>
-            <td>${sale.category}</td>
-            <td>${new Date(sale.date).toLocaleDateString()}</td>
+            <td>${item.name}</td>  <!-- Using the name of the product -->
+            <td>${item.productId ? item.productId._id : 'N/A'}</td> <!-- Display product ID or 'N/A' if not available -->
+            <td>${item.category}</td>
+            <td>${item.quantity}</td>
+            <td>${item.total.toFixed(2)}</td>
+            <td>${new Date(item.date).toLocaleDateString()}</td> <!-- Formatting the date -->
         `;
         tableBody.appendChild(row);
+        totalSales += item.total;
+    });
+
+    // Update total sales
+    document.getElementById('total-sales').textContent = totalSales.toFixed(2);
+}
+
+// Function to populate category filter dropdown
+function populateCategories(data) {
+    const categories = new Set(data.map(item => item.category));
+    const categorySelect = document.getElementById('category');
+    
+    // Adding a default category option
+    const defaultOption = document.createElement('option');
+    defaultOption.value = '- Select Category -';
+    defaultOption.textContent = '- Select Category -';
+    categorySelect.appendChild(defaultOption);
+
+    categories.forEach(category => {
+        const option = document.createElement('option');
+        option.value = category;
+        option.textContent = category;
+        categorySelect.appendChild(option);
     });
 }
 
-// Update pagination controls and page indicator
-function updatePagination() {
-    const totalPages = Math.ceil(filteredSalesData.length / rowsPerPage);
-
-    // Update the page indicator
-    const pageIndicator = document.getElementById('pageIndicator');
-    pageIndicator.textContent = `Page ${currentPage} of ${totalPages}`;
-
-    // Enable/disable navigation buttons
-    document.getElementById('prevPage').disabled = currentPage === 1;
-    document.getElementById('nextPage').disabled = currentPage === totalPages || totalPages === 0;
-}
-
-// Handle Previous button click
-document.getElementById('prevPage').addEventListener('click', () => {
-    if (currentPage > 1) {
-        currentPage--;
-        updateSalesTable();
-        updatePagination();
-    }
-});
-
-// Handle Next button click
-document.getElementById('nextPage').addEventListener('click', () => {
-    const totalPages = Math.ceil(filteredSalesData.length / rowsPerPage);
-    if (currentPage < totalPages) {
-        currentPage++;
-        updateSalesTable();
-        updatePagination();
-    }
-});
-
-// Filter sales by category and reset pagination
-function filterTableByCategory() {
+// Function to filter the table by selected category
+function filterByCategory() {
     const selectedCategory = document.getElementById('category').value;
-
-    // Filter sales data based on selected category
-    if (selectedCategory === "") {
-        filteredSalesData = allSalesData; // No filter, show all data
-    } else {
-        filteredSalesData = allSalesData.filter(sale => sale.category === selectedCategory);
-    }
-
-    currentPage = 1; // Reset to the first page after filtering
-    updateSalesTable(); // Update table with filtered data
-    updatePagination(); // Update pagination
+    const filteredData = selectedCategory === '- Select Category -'
+        ? salesData
+        : salesData.filter(item => item.category === selectedCategory);
+    populateTable(filteredData);
 }
 
-// Event listener for category dropdown change
-document.getElementById('category').addEventListener('change', filterTableByCategory);
+// Initialize table and category filter
+document.addEventListener('DOMContentLoaded', () => {
+    // Fetch sales data from backend
+    fetch('/api/sales')
+        .then(response => response.json())
+        .then(data => {
+            salesData = data; // Store the fetched sales data globally
+            populateTable(data); // Populate table with the fetched sales data
+            populateCategories(data); // Populate category filter dropdown
+        })
+        .catch(error => console.error('Error fetching sales data:', error));
 
-// Initial data fetch on page load
-document.addEventListener('DOMContentLoaded', fetchSalesData);
+    // Event listener for category change
+    document.getElementById('category').addEventListener('change', filterByCategory);
+});

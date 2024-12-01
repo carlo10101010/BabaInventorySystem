@@ -42,17 +42,110 @@ document.addEventListener("DOMContentLoaded", async function () {
       const row = productTable.insertRow();
       row.innerHTML = `
         <td>${product.name}</td>
-        <td>${product._id.toString()}</td> <!-- Use product._id as string -->
+        <td>${product._id}</td>
         <td>${product.category}</td>
         <td>${product.stock}</td>
         <td>${product.threshold}</td>
         <td>${product.status}</td>
         <td>
-          <button class="btn btn-success btn-sm restock-btn">Restock</button>
-          <button class="btn btn-warning btn-sm edit-btn">Edit</button>
-          <button class="btn btn-danger btn-sm delete-btn">Delete</button>
+          <button class="btn btn-success btn-sm restock-btn" data-id="${product._id}">Restock</button>
+          <button class="btn btn-warning btn-sm edit-btn" data-id="${product._id}">Edit</button>
+          <button class="btn btn-danger btn-sm delete-btn" data-id="${product._id}">Delete</button>
         </td>
       `;
+    });
+
+    // Add event listeners for restock, edit, and delete buttons
+    const restockButtons = document.querySelectorAll(".restock-btn");
+    restockButtons.forEach((button) => {
+      button.addEventListener("click", async (e) => {
+        const productId = e.target.dataset.id;
+        const newStock = prompt("Enter new stock value:");
+
+        if (newStock && !isNaN(newStock)) {
+          try {
+            const response = await fetch(`/api/products/restock/${productId}`, {
+              method: "PATCH",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ stock: parseInt(newStock) }),
+            });
+
+            if (response.ok) {
+              alert("Product restocked successfully!");
+              await fetchProducts();
+            } else {
+              alert("Error restocking product.");
+            }
+          } catch (error) {
+            console.error("Error restocking product:", error);
+          }
+        } else {
+          alert("Invalid stock value");
+        }
+      });
+    });
+
+    const editButtons = document.querySelectorAll(".edit-btn");
+    editButtons.forEach((button) => {
+      button.addEventListener("click", async (e) => {
+        const productId = e.target.dataset.id;
+        // Here, you could open a modal or pre-fill a form with the current product details for editing
+        const product = await fetch(`/api/products/${productId}`).then((res) => res.json());
+        const newName = prompt("Enter new product name", product.name);
+        const newCategory = prompt("Enter new category", product.category);
+        const newStock = prompt("Enter new stock value", product.stock);
+        const newThreshold = prompt("Enter new threshold", product.threshold);
+
+        if (newName && newCategory && newStock && newThreshold) {
+          try {
+            const response = await fetch(`/api/products/${productId}`, {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                name: newName,
+                category: newCategory,
+                stock: parseInt(newStock),
+                threshold: parseInt(newThreshold),
+              }),
+            });
+
+            if (response.ok) {
+              alert("Product updated successfully!");
+              await fetchProducts();
+            } else {
+              alert("Error updating product.");
+            }
+          } catch (error) {
+            console.error("Error updating product:", error);
+          }
+        } else {
+          alert("Please fill out all fields.");
+        }
+      });
+    });
+
+    const deleteButtons = document.querySelectorAll(".delete-btn");
+    deleteButtons.forEach((button) => {
+      button.addEventListener("click", async (e) => {
+        const productId = e.target.dataset.id;
+        const confirmDelete = confirm("Are you sure you want to delete this product?");
+        if (confirmDelete) {
+          try {
+            const response = await fetch(`/api/products/${productId}`, {
+              method: "DELETE",
+            });
+
+            if (response.ok) {
+              alert("Product deleted successfully!");
+              await fetchProducts();
+            } else {
+              alert("Error deleting product.");
+            }
+          } catch (error) {
+            console.error("Error deleting product:", error);
+          }
+        }
+      });
     });
   }
 
@@ -68,7 +161,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
       products = products.filter((product) => {
         const matchesSearch =
-          product.name.toLowerCase().includes(searchValue) || product._id.toString().includes(searchValue);
+          product.name.toLowerCase().includes(searchValue) || product._id.includes(searchValue);
         const matchesCategory = selectedCategory === "all" || product.category === selectedCategory;
         const matchesStatus = selectedStatus === "all" || product.status === selectedStatus;
         return matchesSearch && matchesCategory && matchesStatus;

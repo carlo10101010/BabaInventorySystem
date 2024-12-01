@@ -3,11 +3,12 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
 const dotenv = require('dotenv');
+const bodyParser = require('body-parser');
 const salesRouter = require('./routes/salesRouter');  // This line imports the sales route
 const authRouter = require('./routes/authRouter');  // Adjust path if needed
 const accountRouter = require('./routes/accountRouter');
 const productsRouter = require('./routes/productsRouter');
-const purchaseOrderRouter = require('./routes/purchaseOrderRouter');
+const orderRouter = require("./routes/orderRouter");
 
 // Load environment variables from .env file
 dotenv.config();
@@ -22,7 +23,8 @@ const app = express();
 
 // Middleware
 app.use(express.json());  // Body parser middleware to parse JSON request body
-app.use(cors());          // CORS for cross-origin requests
+app.use(cors()); // CORS for cross-origin requests
+app.use(bodyParser.json()); // For parsing application/json
 
 // Middleware to serve static files
 app.use(express.static(path.join(__dirname, 'public')));
@@ -38,8 +40,11 @@ app.use(authRouter); // This will support '/login' for POST requests
 app.use('/', authRouter);         // Supports /login
 app.use('/api/sales', salesRouter);
 app.use('/api/products', productsRouter);
-app.use('/api/purchase-orders', purchaseOrderRouter);
+app.use("/api/orders", orderRouter);
 app.use('/api/account', accountRouter);
+app.use("/api", orderRouter);
+
+
 
 // Connect to MongoDB without deprecated options
 mongoose.connect(process.env.MONGO_URI)
