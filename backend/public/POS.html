@@ -4,22 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Purchase Order</title>
-  
-  <!-- Font Awesome for icons -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-  
-  <!-- Link to the external CSS file -->
-  <link rel="stylesheet" href="POS.css">
+  <link rel="stylesheet" href="POS.css"> 
 </head>
 <body>
-
   <!-- Sidebar -->
   <div class="sidebar">
     <div class="logo-section">
       <img src="img/logo.png" alt="Logo" class="logo">
     </div>
     <div class="menu-links">
-      <a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+      <a href="index.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
       <a href="inventory.html"><i class="fas fa-archive"></i> Inventory</a>
       <a href="POS.html"><i class="fas fa-cash-register"></i> Point of Sales</a>
       <a href="salesreport.html"><i class="fas fa-file-invoice"></i> Sales Report</a>
@@ -30,59 +25,64 @@
     </div>
   </div>
 
-  <!-- Main Content Wrapper -->
+  <!-- Main Content -->
   <div class="content-wrapper">
     <h1>Purchase Order</h1>
-    
-    <!-- Purchase Order Form -->
-    <div class="purchase-order-wrapper">
-      <div class="item-selection">
-        <h2>Select Items</h2>
-        
-        <!-- Item Selection Section -->
-        <div class="item-row">
-          <label for="item-name">Item</label>
-          <select id="item-name"></select>
-        </div>
-        
-        <div class="item-row">
-          <label for="unit-price">Unit Price</label>
-          <input type="number" id="unit-price" value="0" readonly>
-        </div>        
-        
-        <div class="item-row">
-          <label for="quantity">Quantity</label>
-          <input type="number" id="quantity" value="1">
-        </div>
-        
-        <button id="add-to-list" class="btn">Add to List</button>
-      </div>
+    <button id="open-modal" class="btn">Add to List</button>
 
-      <!-- Order List Section -->
-      <div class="order-list">
-        <h2>Order List</h2>
-        <table id="order-table">
-          <thead>
-            <tr>
-              <th>Item</th>
-              <th>Unit Price</th>
-              <th>Quantity</th>
-              <th>Total</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="order-body"></tbody>
-        </table>
-        
-        <div class="order-total">
-          <p>Total Order Amount: $<span id="total-amount">0.00</span></p>
-        </div>
+    <!-- Modal -->
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Add Item to Order List</h2>
+        <form id="addItemForm">
+          <label for="category">Category</label>
+          <select id="category" required>
+            <option value="">Select a category</option>
+            <option value="Halogen bulbs">Halogen bulbs</option>
+            <option value="LED bulbs">LED bulbs</option>
+            <option value="Fluorescent bulbs">Fluorescent bulbs</option>
+            <option value="Metal Halide bulbs">Metal Halide bulbs</option>
+            <option value="Xenon bulbs">Xenon bulbs</option>
+            <option value="High Pressure Sodium bulbs">High Pressure Sodium bulbs</option>
+            <option value="Low Pressure Sodium bulbs">Low Pressure Sodium bulbs</option>
+            <option value="Induction lamps">Induction lamps</option>
+            <option value="Neon bulbs">Neon bulbs</option>
+          </select>
+
+          <label for="unit-price">Unit Price</label>
+          <input type="number" id="unit-price" placeholder="Unit Price" step="0.01" required />
+
+          <label for="quantity">Quantity</label>
+          <input type="number" id="quantity" placeholder="Quantity" required />
+          
+          <button type="submit">Add to Order</button>
+        </form>
       </div>
+    </div>
+
+    <!-- Order List -->
+    <div class="order-list">
+      <h2>Order List</h2>
+      <table id="order-table">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Unit Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="order-body"></tbody>
+      </table>
+      <p class="order-total">Total Order Amount: <span id="total-amount">0.00</span></p>
+
+      <button id="confirm-order" class="btn-confirm">Confirm</button>
     </div>
   </div>
 
-  <!-- JavaScript -->
+  <!-- Link to External JS File -->
   <script src="POS.js"></script>
-
 </body>
 </html>

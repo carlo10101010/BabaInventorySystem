@@ -5,7 +5,7 @@ const User = require('../models/User');
 const router = express.Router();
 
 // Route to get user details by ID
-router.get('/account/:id', async (req, res) => {
+router.get('/users/:id', async (req, res) => {
   try {
     const userId = req.params.id; // Get user ID from URL parameter
 
@@ -29,7 +29,7 @@ router.get('/account/:id', async (req, res) => {
 });
 
 // Route to update user details by ID
-router.put('/account/:id', async (req, res) => {
+router.put('/users/:id', async (req, res) => {
   try {
     const userId = req.params.id; // Get user ID from the URL parameter
     const { username, email, password } = req.body; // Get new user details from the request body

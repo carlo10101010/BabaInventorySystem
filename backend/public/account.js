@@ -11,13 +11,14 @@ document.getElementById('changePasswordBtn').addEventListener('click', function(
   });
   
   document.getElementById('update-btn').addEventListener('click', async function() {
+    const token = localStorage.getItem('auth-token');
     const username = document.getElementById('username').value;
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
   
     // Here you would send the updated data to the server
     try {
-      const response = await fetch('/api/account/update', {
+      const response = await fetch('/api/users', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
