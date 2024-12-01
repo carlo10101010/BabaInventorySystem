@@ -1,58 +1,63 @@
-const Product = require("../models/Product"); // Assuming you have a Product model
-const Sale = require("../models/Sale"); // Assuming you create a Sale model
+const Sales = require('../models/Sale');
 
-// Confirm and update stock
-const confirmOrder = async (req, res) => {
-  const { orderList } = req.body;
+// Get all sales data
+exports.getSales = async (req, res) => {
+    try {
+        const sales = await Sales.find()
+            .populate('productId', 'name') // Populating the product name
+            .exec();
 
-  if (!orderList || !Array.isArray(orderList) || orderList.length === 0) {
-    return res.status(400).json({ message: "Order list is empty or invalid." });
-  }
-
-  try {
-    // Update stock and save sales data
-    const salesData = [];
-
-    for (const item of orderList) {
-      const product = await Product.findById(item.productId);
-
-      if (!product) {
-        return res.status(404).json({ message: `Product not found: ${item.name}` });
-      }
-
-      // Check if stock is sufficient
-      if (product.stock < item.quantity) {
-        return res
-          .status(400)
-          .json({ message: `Insufficient stock for product: ${product.name}` });
-      }
-
-      // Update stock
-      product.stock -= item.quantity;
-      await product.save();
-
-      // Prepare sales record
-      salesData.push({
-        productId: item.productId,
-        name: item.name,
-        quantity: item.quantity,
-        price: item.price,
-        total: item.total,
-        category: item.category,
-        date: new Date(),
-      });
+        res.status(200).json(sales);
+    } catch (error) {
+        res.status(500).json({ message: 'Error retrieving sales data', error });
     }
-
-    // Insert sales data
-    await Sale.insertMany(salesData);
-
-    res.status(200).json({ message: "Order confirmed and sales recorded successfully." });
-  } catch (error) {
-    console.error("Error confirming order:", error);
-    res.status(500).json({ message: "Server error confirming order.", error: error.message });
-  }
 };
 
-module.exports = {
-  confirmOrder,
+// Add a new sale
+exports.addSale = async (req, res) => {
+    try {
+        const { productId, name, quantity, price, category, date } = req.body;
+        const newSale = new Sales({
+            productId,
+            name,
+            quantity,
+            price,
+            total: price * quantity,
+            category,
+            date
+        });
+
+        const savedSale = await newSale.save();
+        res.status(201).json(savedSale);
+    } catch (error) {
+        res.status(500).json({ message: 'Error adding sale', error });
+    }
+};
+
+// Update an existing sale
+exports.updateSale = async (req, res) => {
+    try {
+        const { saleId } = req.params;
+        const updatedSale = await Sales.findByIdAndUpdate(saleId, req.body, { new: true });
+        if (!updatedSale) {
+            return res.status(404).json({ message: 'Sale not found' });
+        }
+        res.status(200).json(updatedSale);
+    } catch (error) {
+        res.status(500).json({ message: 'Error updating sale', error });
+    }
+};
+
+// Delete a sale
+exports.deleteSale = async (req, res) => {
+    try {
+        const { saleId } = req.params;
+        const deletedSale = await Sales.findByIdAndDelete(saleId);
+        if (!deletedSale) {
+            return res.status(404).json({ message: 'Sale not found' });
+        }
+        res.status(200).json({ message: 'Sale deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error deleting sale', error });
+    }
 };
