@@ -1,10 +1,8 @@
-const express = require("express");
-const { getProducts, getCategories, confirmOrder } = require("../controllers/orderController");
-
+const express = require('express');
 const router = express.Router();
+const orderController = require('../controllers/orderController');
 
-router.get("/products", getProducts);
-router.get("/products/categories", getCategories);
-router.post("/sales/confirm", confirmOrder);
+// Route to confirm and save the order
+router.post('/confirm', orderController.confirmOrder);
 
 module.exports = router;
