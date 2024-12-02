@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+  <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="logo-section">
+        <img src="img/logo.png" alt="Logo" class="logo">
+      </div>
+      <div class="menu-links">
+        <a href="index.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a href="inventory.html"><i class="fas fa-archive"></i> Inventory</a>
+        <a href="POS.html"><i class="fas fa-cash-register"></i> Point of Sales</a>
+        <a href="salesreport.html"><i class="fas fa-file-invoice"></i> Sales Report</a>
+        <a href="account.html"><i class="fas fa-user-cog"></i> Account</a>
+      </div>
+      <div class="bottom-links">
+        <a href="login.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+      </div>
+    </div>
+
+  <div class="wrapper">
+    <div class="content">
+      <h1 class="dashboard-title">DASHBOARD</h1>
+      <!-- Dashboard Cards -->
+      <div class="dashboard-cards">
+        <div class="card">
+          <h1 class="card-header"><i class="fas fa-th-large"></i> Category</h1>
+          <div class="card-body">10</div>
+        </div>
+        <div class="card">
+          <div class="card-header"><i class="fas fa-cogs"></i> Products</div>
+          <div class="card-body">150</div>
+        </div>
+        <div class="card">
+          <div class="card-header"><i class="fas fa-calendar-alt"></i> Monthly Sales</div>
+          <div class="card-body">20,000</div>
+        </div>
+      </div>
+
+      <!-- Tables -->
+      <div class="tables">
+        <div class="table-container">
+          <div class="table-header">
+            <h2>Top Selling Products</h2>
+            <select class="filter-category">
+              <option value="all">All Categories</option>
+              <option value="category1">Category 1</option>
+              <option value="category2">Category 2</option>
+              <option value="category3">Category 3</option>
+            </select>
+          </div>
+          <table class="table top-selling">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Total Sold</th>
+                <th>Revenue</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Product 1</td>
+                <td>Category 1</td>
+                <td>100</td>
+                <td>$500</td>
+              </tr>
+              <tr>
+                <td>Product 2</td>
+                <td>Category 2</td>
+                <td>90</td>
+                <td>$450</td>
+              </tr>
+              <tr>
+                <td>Product 3</td>
+                <td>Category 1</td>
+                <td>80</td>
+                <td>$400</td>
+              </tr>
+              <tr>
+                <td>Product 4</td>
+                <td>Category 3</td>
+                <td>70</td>
+                <td>$350</td>
+              </tr>
+              <tr>
+                <td>Product 5</td>
+                <td>Category 2</td>
+                <td>60</td>
+                <td>$300</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Low Stock Alert Table -->
+        <div class="table-container">
+          <div class="table-header">
+            <h2>Low Stock Alert</h2>
+            <select class="filter-category">
+              <option value="all">All Categories</option>
+              <option value="category1">Category 1</option>
+              <option value="category2">Category 2</option>
+              <option value="category3">Category 3</option>
+            </select>
+          </div>
+          <table class="table low-stock">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Stock Remaining</th>
+                <th>Restock Needed</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Product 1</td>
+                <td>Category 1</td>
+                <td>10</td>
+                <td>Yes</td>
+              </tr>
+              <tr>
+                <td>Product 2</td>
+                <td>Category 2</td>
+                <td>5</td>
+                <td>Yes</td>
+              </tr>
+              <tr>
+                <td>Product 3</td>
+                <td>Category 1</td>
+                <td>3</td>
+                <td>Yes</td>
+              </tr>
+              <tr>
+                <td>Product 4</td>
+                <td>Category 3</td>
+                <td>8</td>
+                <td>No</td>
+              </tr>
+              <tr>
+                <td>Product 5</td>
+                <td>Category 2</td>
+                <td>4</td>
+                <td>Yes</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="scripts.js"></script>
+</body>
+</html>
