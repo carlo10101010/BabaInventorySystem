@@ -24,9 +24,8 @@
         <a href="login.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
       </div>
     </div>
-            </div>
-            <div class="wrapper">
-                <div class="content">
+    <div class="wrapper">
+        <div class="content">
             <div class="col-md-10">
                 <div class="content border border-3 border-light border rounded">
                     <h1>Account Settings</h1>
@@ -46,7 +45,7 @@
                         <div class="col-md-6">
                             <label for="password" class="form-label">Password</label>
                             <input type="password" id="password" class="form-control border border-1 border-dark border rounded" value="******" readonly>
-                            <button class="btn btn-outline-secondary mt-2">Change Password</button>
+                            <button class="btn btn-outline-secondary mt-2" data-bs-toggle="modal" data-bs-target="#changePasswordModal">Change Password</button>
                         </div>
                     </div>
                     <button class="btn btn-primary">Save Changes</button>
@@ -55,7 +54,40 @@
         </div>
     </div>
 
+    <!-- Change Password Modal -->
+    <div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="changePasswordModalLabel">Change Password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="changePasswordForm">
+                        <div class="mb-3">
+                            <label for="currentPassword" class="form-label">Current Password</label>
+                            <input type="password" class="form-control" id="currentPassword" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="newPassword" class="form-label">New Password</label>
+                            <input type="password" class="form-control" id="newPassword" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label">Confirm New Password</label>
+                            <input type="password" class="form-control" id="confirmPassword" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="savePasswordButton">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="sales.js"></script>
+    <script src="change-password.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
