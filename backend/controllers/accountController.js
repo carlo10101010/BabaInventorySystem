@@ -1,11 +1,10 @@
-// controllers/accountController.js
-const User = require('../models/User');
+const User = require('../models/User'); // Use User model
 const bcrypt = require('bcryptjs');
 
 // Controller to get user account details
 const getAccountDetails = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id).select('-password'); // Exclude password from response
+    const user = await User.findById(req.params.id).select('-password'); // Exclude password
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
@@ -26,7 +25,7 @@ const updateAccountDetails = async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    // Update user fields if provided
+    // Update fields if provided
     if (username) user.username = username;
     if (email) user.email = email;
     if (password) user.password = await bcrypt.hash(password, 10); // Hash password if updated
