@@ -4,7 +4,7 @@ const Sales = require('../models/Sale');
 exports.getSales = async (req, res) => {
     try {
         const sales = await Sales.find()
-            .populate('productId', 'name') // Populating the product name
+            .populate('productId', 'name') // Populating the product name from productId
             .exec();
 
         res.status(200).json(sales);
@@ -18,7 +18,7 @@ exports.addSale = async (req, res) => {
     try {
         const { productId, name, quantity, price, category, date } = req.body;
         const newSale = new Sales({
-            productId,
+            productId, // Referencing the Product model
             name,
             quantity,
             price,

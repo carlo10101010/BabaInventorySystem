@@ -1,76 +1,42 @@
-const Product = require("../models/Product");
-const Sale = require("../models/Sale");
+const Sale = require('../models/Sale');
+const Product = require('../models/Product');  // Assuming the correct Product model is used
 
-exports.getProducts = async (req, res) => {
-  try {
-    const products = await Product.find();
-    res.json(products);
-  } catch (error) {
-    res.status(500).json({ message: "Error fetching products", error });
-  }
-};
-
-exports.getCategories = async (req, res) => {
-  try {
-    const categories = await Product.distinct("category");
-    res.json(categories);
-  } catch (error) {
-    res.status(500).json({ message: "Error fetching categories", error });
-  }
-};
-
+// Confirm order and save to sales collection
 exports.confirmOrder = async (req, res) => {
+  const { orderList } = req.body;
+
+  if (!orderList || orderList.length === 0) {
+    return res.status(400).json({ message: 'No items in the order list' });
+  }
+
   try {
-    const { orderList } = req.body;
-
-    if (!orderList || orderList.length === 0) {
-      return res.status(400).json({ message: "Order list is empty" });
-    }
-
-    const updatedProducts = [];
-
-    for (const order of orderList) {
-      const product = await Product.findById(order.productId);
-      
+    // Save each item in the order list to the sales collection
+    const salesPromises = orderList.map(async (item) => {
+      // Check if product exists in the products collection
+      const product = await Product.findById(item.productId);
       if (!product) {
-        return res.status(404).json({ message: `Product not found: ${order.productId}` });
+        throw new Error(`Product with ID ${item.productId} not found`);
       }
 
-      if (product.stock < order.quantity) {
-        return res.status(400).json({ message: `Insufficient stock for product: ${product.name}` });
-      }
-
-      product.stock -= order.quantity;
-
-      if (product.stock <= 0) {
-        product.status = "Out of Stock";
-      } else if (product.stock <= product.threshold) {
-        product.status = "Low Stock";
-      } else {
-        product.status = "In Stock";
-      }
-
-      await product.save();
-
-      updatedProducts.push({
-        productId: product._id,
-        name: product.name,
-        quantity: order.quantity,
-        price: product.price,
-        total: product.price * order.quantity,
-        category: product.category,
-        date: new Date(),
+      // Save sale to the sales collection
+      const sale = new Sale({
+        productId: item.productId,
+        name: item.name,
+        quantity: item.quantity,
+        price: item.price,  // Passed from frontend
+        total: item.total,  // Price * Quantity
+        category: item.category,
       });
-    }
 
-    const sale = new Sale({
-      ...updatedProducts,
-      date: new Date(),
+      await sale.save();
     });
-    await sale.save();
 
-    res.status(201).json({ message: "Order confirmed and saved", sale });
+    // Wait for all sales to be saved
+    await Promise.all(salesPromises);
+
+    return res.status(200).json({ message: 'Order confirmed and saved successfully' });
   } catch (error) {
-    res.status(500).json({ message: "Error confirming order", error });
+    console.error('Error confirming order:', error);
+    return res.status(500).json({ message: 'Error confirming order', error: error.message });
   }
 };

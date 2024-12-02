@@ -9,6 +9,7 @@ const authRouter = require('./routes/authRouter');  // Adjust path if needed
 const accountRouter = require('./routes/accountRouter');
 const productsRouter = require('./routes/productsRouter');
 const orderRouter = require("./routes/orderRouter");
+const dashboardRouter = require('./routes/dashboardRouter');
 
 // Load environment variables from .env file
 dotenv.config();
@@ -40,9 +41,10 @@ app.use(authRouter); // This will support '/login' for POST requests
 app.use('/', authRouter);         // Supports /login
 app.use('/api/sales', salesRouter);
 app.use('/api/products', productsRouter);
-app.use("/api/orders", orderRouter);
-app.use('/api/account', accountRouter);
-app.use("/api", orderRouter);
+app.use("/api/sales", orderRouter);
+app.use('/api', accountRouter);
+app.use('/api', orderRouter);
+app.use('/dashboard', dashboardRouter);
 
 
 
