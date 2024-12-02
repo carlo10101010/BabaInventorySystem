@@ -5,6 +5,11 @@ document.addEventListener("DOMContentLoaded", async function () {
   const addProductBtn = document.getElementById("addProductBtn");
   const productTable = document.getElementById("productTable").getElementsByTagName("tbody")[0];
   const addItemForm = document.getElementById("addItemForm");
+  const pagination = document.getElementById("pagination"); // Pagination container
+
+  const itemsPerPage = 5; // Number of items per page
+  let currentPage = 1;
+  let products = []; // Store all products data
 
   // Fetch categories from the backend
   async function fetchCategories() {
@@ -28,17 +33,22 @@ document.addEventListener("DOMContentLoaded", async function () {
   async function fetchProducts() {
     try {
       const response = await fetch("/api/products");
-      const products = await response.json();
+      products = await response.json();
       renderTable(products);
+      renderPagination();
     } catch (error) {
       console.error("Error fetching products:", error);
     }
   }
 
-  // Render the product table
+  // Render the product table for the current page
   function renderTable(data) {
     productTable.innerHTML = "";
-    data.forEach((product) => {
+    const start = (currentPage - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    const currentPageProducts = data.slice(start, end);
+
+    currentPageProducts.forEach((product) => {
       const row = productTable.insertRow();
       row.innerHTML = `
         <td>${product.name}</td>
@@ -89,7 +99,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     editButtons.forEach((button) => {
       button.addEventListener("click", async (e) => {
         const productId = e.target.dataset.id;
-        // Here, you could open a modal or pre-fill a form with the current product details for editing
         const product = await fetch(`/api/products/${productId}`).then((res) => res.json());
         const newName = prompt("Enter new product name", product.name);
         const newCategory = prompt("Enter new category", product.category);
@@ -149,17 +158,55 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
   }
 
+  // Render pagination controls
+  function renderPagination() {
+    pagination.innerHTML = "";
+
+    const totalPages = Math.ceil(products.length / itemsPerPage);
+
+    // Create Previous Button
+    const prevButton = createPaginationButton('<i class="fas fa-arrow-left"></i>', currentPage > 1 ? currentPage - 1 : 1);
+    pagination.appendChild(prevButton);
+
+    // Create Page Buttons
+    for (let i = 1; i <= totalPages; i++) {
+      const pageButton = createPaginationButton(i, i);
+      if (i === currentPage) pageButton.classList.add("active");
+      pagination.appendChild(pageButton);
+    }
+
+    // Create Next Button
+    const nextButton = createPaginationButton('<i class="fas fa-arrow-right"></i>', currentPage < totalPages ? currentPage + 1 : totalPages);
+    pagination.appendChild(nextButton);
+  }
+
+  // Helper function to create pagination buttons
+  function createPaginationButton(label, page) {
+    const li = document.createElement("li");
+    li.className = "page-item";
+    li.innerHTML = `<a class="page-link" href="#">${label}</a>`;
+    li.addEventListener("click", (e) => {
+      e.preventDefault();
+      if (currentPage !== page) {
+        currentPage = page;
+        renderTable(products);
+        renderPagination();
+      }
+    });
+    return li;
+  }
+
   // Filter functionality
   async function filterTable() {
     try {
       const response = await fetch("/api/products");
-      let products = await response.json();
+      let filteredProducts = await response.json();
 
       const searchValue = searchInput.value.toLowerCase();
       const selectedCategory = categoryFilter.value;
       const selectedStatus = statusFilter.value;
 
-      products = products.filter((product) => {
+      filteredProducts = filteredProducts.filter((product) => {
         const matchesSearch =
           product.name.toLowerCase().includes(searchValue) || product._id.includes(searchValue);
         const matchesCategory = selectedCategory === "all" || product.category === selectedCategory;
@@ -167,7 +214,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         return matchesSearch && matchesCategory && matchesStatus;
       });
 
-      renderTable(products);
+      renderTable(filteredProducts);
+      renderPagination(); // Re-render pagination after filtering
     } catch (error) {
       console.error("Error filtering table:", error);
     }
